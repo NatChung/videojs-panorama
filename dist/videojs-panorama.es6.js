@@ -1,5 +1,9 @@
-import videojs from 'video.js';
-import THREE$1 from 'three';
+'use strict';
+
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var videojs = _interopDefault(require('video.js'));
+var THREE$1 = _interopDefault(require('three'));
 
 /**
  * @author alteredq / http://alteredqualia.com/
@@ -1314,7 +1318,7 @@ if (typeof window !== "undefined") {
     videojs.registerComponent('VRButton', videojs.extend(button, vrBtn));
 
     // Register the plugin with video.js.
-    videojs.plugin('panorama', plugin$1({
+    videojs.registerPlugin('panorama', plugin$1({
         _init: function _init(options) {
             var canvas = options.videoType !== "3dVideo" ? Canvas(component, THREE$1, {
                 getTech: getTech
@@ -1335,4 +1339,4 @@ var plugin_es6 = function (player, options) {
     return player.panorama(options);
 };
 
-export default plugin_es6;
+module.exports = plugin_es6;

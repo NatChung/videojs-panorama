@@ -660,8 +660,8 @@ var Canvas = function Canvas(baseComponent, THREE) {
                 this.eyeFOVR = eyeParamsR.recommendedFieldOfView;
             }
 
-            this.cameraL = new THREE.PerspectiveCamera(this.camera.fov, this.width / 2 / this.height, 1, 2000);
-            this.cameraR = new THREE.PerspectiveCamera(this.camera.fov, this.width / 2 / this.height, 1, 2000);
+            this.cameraL = new THREE.PerspectiveCamera(this.camera.fov, (this.width / this.height) * 2, 1, 2000);
+            this.cameraR = new THREE.PerspectiveCamera(this.camera.fov, (this.width / this.height) * 2, 1, 2000);
         },
 
         disableVR: function disableVR() {
@@ -675,8 +675,8 @@ var Canvas = function Canvas(baseComponent, THREE) {
             this.camera.aspect = this.width / this.height;
             this.camera.updateProjectionMatrix();
             if (this.VRMode) {
-                this.cameraL.aspect = this.camera.aspect / 2;
-                this.cameraR.aspect = this.camera.aspect / 2;
+                this.cameraL.aspect = this.camera.aspect * 2;
+                this.cameraR.aspect = this.camera.aspect * 2;
                 this.cameraL.updateProjectionMatrix();
                 this.cameraR.updateProjectionMatrix();
             }
@@ -725,8 +725,8 @@ var Canvas = function Canvas(baseComponent, THREE) {
             if (!this.VRMode) {
                 this.renderer.render(this.scene, this.camera);
             } else {
-                var viewPortWidth = this.width / 2,
-                    viewPortHeight = this.height;
+                var viewPortWidth = this.width,
+                    viewPortHeight = this.height / 2;
                 if (typeof vrHMD !== 'undefined') {
                     this.cameraL.projectionMatrix = util.fovToProjection(this.eyeFOVL, true, this.camera.near, this.camera.far);
                     this.cameraR.projectionMatrix = util.fovToProjection(this.eyeFOVR, true, this.camera.near, this.camera.far);
@@ -753,8 +753,8 @@ var Canvas = function Canvas(baseComponent, THREE) {
                 this.renderer.render(this.scene, this.cameraL);
 
                 // render right eye
-                this.renderer.setViewport(viewPortWidth, 0, viewPortWidth, viewPortHeight);
-                this.renderer.setScissor(viewPortWidth, 0, viewPortWidth, viewPortHeight);
+                this.renderer.setViewport(0, viewPortHeight, viewPortWidth, viewPortHeight);
+                this.renderer.setScissor(0, viewPortHeight, viewPortWidth, viewPortHeight);
                 this.renderer.render(this.scene, this.cameraR);
             }
         }
@@ -783,10 +783,10 @@ var ThreeDCanvas = function ThreeDCanvas(baseComponent, THREE) {
 
             var aspectRatio = this.width / this.height;
             //define camera
-            this.cameraL = new THREE.PerspectiveCamera(options.initFov, aspectRatio, 1, 2000);
+            this.cameraL = new THREE.PerspectiveCamera(options.initFov, aspectRatio * 2, 1, 2000);
             this.cameraL.target = new THREE.Vector3(0, 0, 0);
 
-            this.cameraR = new THREE.PerspectiveCamera(options.initFov, aspectRatio / 2, 1, 2000);
+            this.cameraR = new THREE.PerspectiveCamera(options.initFov, aspectRatio * 2, 1, 2000);
             this.cameraR.position.set(1000, 0, 0);
             this.cameraR.target = new THREE.Vector3(1000, 0, 0);
 
@@ -825,7 +825,7 @@ var ThreeDCanvas = function ThreeDCanvas(baseComponent, THREE) {
                 this.cameraL.aspect = aspectRatio;
                 this.cameraL.updateProjectionMatrix();
             } else {
-                aspectRatio /= 2;
+                aspectRatio *= 2;
                 this.cameraL.aspect = aspectRatio;
                 this.cameraR.aspect = aspectRatio;
                 this.cameraL.updateProjectionMatrix();
@@ -874,8 +874,8 @@ var ThreeDCanvas = function ThreeDCanvas(baseComponent, THREE) {
             this.cameraL.lookAt(this.cameraL.target);
 
             if (this.VRMode) {
-                var viewPortWidth = this.width / 2,
-                    viewPortHeight = this.height;
+                var viewPortWidth = this.width ,
+                    viewPortHeight = this.height / 2;
                 this.cameraR.target.x = 1000 + 500 * Math.sin(this.phi) * Math.cos(this.theta);
                 this.cameraR.target.y = 500 * Math.cos(this.phi);
                 this.cameraR.target.z = 500 * Math.sin(this.phi) * Math.sin(this.theta);
@@ -887,8 +887,8 @@ var ThreeDCanvas = function ThreeDCanvas(baseComponent, THREE) {
                 this.renderer.render(this.scene, this.cameraL);
 
                 // render right eye
-                this.renderer.setViewport(viewPortWidth, 0, viewPortWidth, viewPortHeight);
-                this.renderer.setScissor(viewPortWidth, 0, viewPortWidth, viewPortHeight);
+                this.renderer.setViewport(0, viewPortHeight, viewPortWidth, viewPortHeight);
+                this.renderer.setScissor(0, viewPortHeight, viewPortWidth, viewPortHeight);
                 this.renderer.render(this.scene, this.cameraR);
             } else {
                 this.renderer.render(this.scene, this.cameraL);

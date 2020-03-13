@@ -307,7 +307,7 @@ var BaseCanvas = function BaseCanvas(baseComponent, THREE) {
             this.isUserInteracting = false;
 
             //define render
-            this.renderer = new THREE.WebGLRenderer();
+            this.renderer = new THREE.WebGLRenderer({preserveDrawingBuffer:true});
             this.renderer.setPixelRatio(window.devicePixelRatio);
             this.renderer.setSize(this.width, this.height);
             this.renderer.autoClear = false;

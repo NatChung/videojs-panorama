@@ -650,6 +650,10 @@ var Canvas = function Canvas(baseComponent, THREE) {
             this.scene.add(this.mesh);
         },
 
+        zoomIn: function zoomIn() {
+            this.handleMouseWheel({wheelDeltaY: 1080, stopPropagation: () => {}, preventDefault:() => {}})
+        },
+
         enableVR: function enableVR() {
             this.VRMode = true;
             if (typeof vrHMD !== 'undefined') {

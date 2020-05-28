@@ -598,7 +598,7 @@ var Canvas = function Canvas(baseComponent, THREE) {
             this.camera.target = new THREE.Vector3(0, 0, 0);
 
             //define geometry
-            var geometry = this.videoType === "equirectangular" ? new THREE.SphereGeometry(500, 60, 40) : new THREE.SphereBufferGeometry(500, 60, 40).toNonIndexed();
+            var geometry = this.videoType === "equirectangular" ? new THREE.SphereGeometry(500, 60, 40) : new THREE.SphereBufferGeometry(500, 240, 160).toNonIndexed();
             if (this.videoType === "fisheye") {
                 var normals = geometry.attributes.normal.array;
                 var uvs = geometry.attributes.uv.array;
